@@ -1,0 +1,27 @@
+# Git
+.git
+.gitignore
+
+# Build
+target/
+*.log
+*.tmp
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Testes
+test-output/
+
+# Logs locais
+logs/
