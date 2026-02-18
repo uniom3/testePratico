@@ -2,6 +2,9 @@
 
 API Spring Boot para upload e processamento de arquivos (com acompanhamento de progresso e notificacoes via WebSocket).
 
+- Acesse a documentação da API em: [Swagger UI](http://3.21.205.230/swagger-ui/index.html)
+- Acesse ao banco de dados da API em: [H2] http://localhost:8080/h2-console/login.jsp?jsessionid=fd5ce72666380487acbb93c9963481c1
+
 ## Stack
 
 - Java 21
