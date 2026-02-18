@@ -1,14 +1,13 @@
 package com.mendonca.testePratico.infrastructure.adapter.output.persistence;
 
-import com.mendonca.testePratico.domain.entity.FileProcessing;
-import com.mendonca.testePratico.domain.vo.*;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mendonca.testePratico.domain.entity.FileProcessing;
+import com.mendonca.testePratico.domain.vo.Summary;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor

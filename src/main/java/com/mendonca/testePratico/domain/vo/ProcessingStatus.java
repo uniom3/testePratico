@@ -1,8 +1,7 @@
 package com.mendonca.testePratico.domain.vo;
 
 public enum ProcessingStatus {
-    PENDING,
-    PROCESSING,
-    COMPLETED,
-    ERROR
+	EM_PROCESSAMENTO,
+	FINALIZADO_COM_ERROS,
+	FINALIZADO_COM_SUCESSO
 }

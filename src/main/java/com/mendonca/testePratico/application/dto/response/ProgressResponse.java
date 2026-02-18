@@ -10,9 +10,9 @@ public record ProgressResponse(
 ) {
     public static ProgressResponse from(FileProcessing processing) {
         String message = switch (processing.getStatus()) {
-            case PROCESSING -> "Processing in progress...";
-            case COMPLETED -> "Processing completed successfully";
-            case ERROR -> "Error: " + processing.getErrorMessage();
+            case EM_PROCESSAMENTO -> "Processing in progress...";
+            case FINALIZADO_COM_SUCESSO -> "Processing completed successfully";
+            case FINALIZADO_COM_ERROS -> "Error: " + processing.getErrorMessage();
             default -> "Waiting to start processing";
         };
         

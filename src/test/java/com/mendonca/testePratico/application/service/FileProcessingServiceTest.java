@@ -86,7 +86,7 @@ class FileProcessingServiceTest {
         
         assertNotNull(response);
         assertNotNull(response.fileId());
-        assertEquals("PROCESSING", response.status());
+        assertEquals("EM_PROCESSAMENTO", response.status());
         assertNotNull(response.progressUrl());
         
         verify(fileStorage).store(eq(validFile), anyString());
@@ -96,7 +96,7 @@ class FileProcessingServiceTest {
         
         FileProcessing saved = fileProcessingCaptor.getValue();
         assertEquals(validFile.getOriginalFilename(), saved.getFilename().value());
-        assertEquals("PROCESSING", saved.getStatus().name());
+        assertEquals("EM_PROCESSAMENTO", saved.getStatus().name());
     }
     
     @Test
@@ -132,7 +132,7 @@ class FileProcessingServiceTest {
         assertNotNull(response);
         assertEquals(fileId, response.fileId());
         assertEquals(0, response.progress());
-        assertEquals("PROCESSING", response.status());
+        assertEquals("EM_PROCESSAMENTO", response.status());
     }
     
     @Test

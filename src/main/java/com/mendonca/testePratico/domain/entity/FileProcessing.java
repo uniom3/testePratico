@@ -20,7 +20,7 @@ public class FileProcessing {
     private FileProcessing(FileId id, FileName filename) {
         this.id = id;
         this.filename = filename;
-        this.status = ProcessingStatus.PENDING;
+        this.status = ProcessingStatus.EM_PROCESSAMENTO;
         this.progress = Progress.initial();
         this.auditInfo = AuditInfo.create();
     }
@@ -34,13 +34,13 @@ public class FileProcessing {
     
     public void start() {
         validateState();
-        this.status = ProcessingStatus.PROCESSING;
+        this.status = ProcessingStatus.EM_PROCESSAMENTO;
         this.progress = Progress.of(0);
         this.auditInfo.started();
     }
     
     public void updateProgress(int percentage) {
-        if (this.status != ProcessingStatus.PROCESSING) {
+        if (this.status != ProcessingStatus.EM_PROCESSAMENTO) {
             throw new ProcessingException(
                 String.format("Cannot update progress when status is %s", this.status)
             );
@@ -50,29 +50,29 @@ public class FileProcessing {
     }
     
     public void complete(Summary summary) {
-        if (this.status != ProcessingStatus.PROCESSING) {
+        if (this.status != ProcessingStatus.EM_PROCESSAMENTO) {
             throw new ProcessingException(
                 String.format("Cannot complete when status is %s", this.status)
             );
         }
-        this.status = ProcessingStatus.COMPLETED;
+        this.status = ProcessingStatus.FINALIZADO_COM_SUCESSO;
         this.progress = Progress.complete();
         this.resultSummary = ResultSummary.of(summary);
         this.auditInfo.completed();
     }
     
     public void fail(String error) {
-        this.status = ProcessingStatus.ERROR;
+        this.status = ProcessingStatus.FINALIZADO_COM_ERROS;
         this.errorMessage = error;
         this.auditInfo.failed();
     }
     
     public boolean isComplete() {
-        return this.status == ProcessingStatus.COMPLETED;
+        return this.status == ProcessingStatus.FINALIZADO_COM_SUCESSO;
     }
     
     public boolean hasError() {
-        return this.status == ProcessingStatus.ERROR;
+        return this.status == ProcessingStatus.FINALIZADO_COM_ERROS;
     }
     
     private void validateState() {

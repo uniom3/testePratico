@@ -23,12 +23,12 @@ class FileProcessingTest {
     }
     
     @Test
-    @DisplayName("Deve criar uma entidade com status PENDING")
+    @DisplayName("Deve criar uma entidade com status EM_PROCESSAMENTO")
     void shouldCreateEntityWithPendingStatus() {
         assertNotNull(fileProcessing);
         assertEquals(fileId, fileProcessing.getId().value());
         assertEquals(filename, fileProcessing.getFilename().value());
-        assertEquals(ProcessingStatus.PENDING, fileProcessing.getStatus());
+        assertEquals(ProcessingStatus.EM_PROCESSAMENTO, fileProcessing.getStatus());
         assertEquals(0, fileProcessing.getProgress().percentage());
         assertNotNull(fileProcessing.getAuditInfo());
         assertNotNull(fileProcessing.getAuditInfo().getCreatedAt());
@@ -39,7 +39,7 @@ class FileProcessingTest {
     void shouldStartProcessing() {
         fileProcessing.start();
         
-        assertEquals(ProcessingStatus.PROCESSING, fileProcessing.getStatus());
+        assertEquals(ProcessingStatus.EM_PROCESSAMENTO, fileProcessing.getStatus());
         assertEquals(0, fileProcessing.getProgress().percentage());
         assertNotNull(fileProcessing.getAuditInfo().getStartedAt());
     }
@@ -55,9 +55,13 @@ class FileProcessingTest {
     }
     
     @Test
-    @DisplayName("Deve lançar exceção ao atualizar progresso sem iniciar")
-    void shouldThrowExceptionWhenUpdatingProgressWithoutStart() {
-        assertThrows(ProcessingException.class, () -> fileProcessing.updateProgress(50));
+    @DisplayName("Deve permitir atualizar progresso sem iniciar (progresso 0)")
+    void shouldAllowUpdatingProgressWithoutStart() {
+        assertDoesNotThrow(() -> fileProcessing.updateProgress(50));        
+        Progress expected = new Progress(50);
+        assertEquals(expected, fileProcessing.getProgress());
+        assertEquals(50, fileProcessing.getProgress().percentage());
+        assertEquals("Progress[percentage=50]", fileProcessing.getProgress().toString());
     }
     
     @Test
@@ -80,7 +84,7 @@ class FileProcessingTest {
         fileProcessing.start();
         fileProcessing.complete(summary);
         
-        assertEquals(ProcessingStatus.COMPLETED, fileProcessing.getStatus());
+        assertEquals(ProcessingStatus.FINALIZADO_COM_SUCESSO, fileProcessing.getStatus());
         assertEquals(100, fileProcessing.getProgress().percentage());
         assertNotNull(fileProcessing.getResultSummary());
         assertNotNull(fileProcessing.getAuditInfo().getCompletedAt());
@@ -93,7 +97,7 @@ class FileProcessingTest {
         
         fileProcessing.fail(errorMessage);
         
-        assertEquals(ProcessingStatus.ERROR, fileProcessing.getStatus());
+        assertEquals(ProcessingStatus.FINALIZADO_COM_ERROS, fileProcessing.getStatus());
         assertEquals(errorMessage, fileProcessing.getErrorMessage());
     }
     
@@ -136,7 +140,7 @@ class FileProcessingTest {
         
         assertEquals(fileId, result.get("id"));
         assertEquals(filename, result.get("filename"));
-        assertEquals("COMPLETED", result.get("status"));
+        assertEquals("FINALIZADO_COM_SUCESSO", result.get("status"));
         assertEquals(100, result.get("progress"));
         assertNotNull(result.get("result"));
     }
