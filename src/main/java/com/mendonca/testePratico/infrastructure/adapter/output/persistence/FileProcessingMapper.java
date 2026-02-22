@@ -48,12 +48,12 @@ public class FileProcessingMapper {
         );
         
         switch (entity.getStatus()) {
-            case "PROCESSING" -> fileProcessing.start();
-            case "COMPLETED" -> {
+            case "EM_PROCESSAMENTO" -> fileProcessing.start();
+            case "FINALIZADO_COM_SUCESSO" -> {
                 fileProcessing.start();
                 fileProcessing.complete(parseSummary(entity.getResultSummary()));
             }
-            case "ERROR" -> fileProcessing.fail(entity.getErrorMessage());
+            case "FINALIZADO_COM_ERROS" -> fileProcessing.fail(entity.getErrorMessage());
         }
         
         return fileProcessing;
